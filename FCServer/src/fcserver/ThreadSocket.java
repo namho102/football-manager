@@ -48,14 +48,35 @@ public class ThreadSocket extends Thread {
             while (din.available() != 0) {
                 st = din.readUTF();
                 System.out.println("Client sent: " + st);
-//                arr = st.split("#");
+                arr = st.split("#");
+                
+                if (null != arr && arr.length == 3) {
+//                    System.out.println(arr[0]);
+//                    System.out.println(arr[1]);
+//                    System.out.println(arr[2]);
+                    if(arr[2].equals("login")) {
+                        int isExisted = authenticate(arr[0], arr[1]);
+                        
+                        System.out.println(isExisted);
+                        if(isExisted != 0) {
+                            dos.writeUTF("OK");
+                        }
+                        else {
+                            dos.writeUTF("notOK");
+                        }
+                                
+                        
+                        
+                    }
+                }
+                        
                 
                 
 //                String result = getUsers();
                 
 //                System.out.print(result);
                 Thread.sleep(1000);
-//                dos.writeUTF(result);
+                
                 dos.flush();
             }
       
@@ -112,6 +133,25 @@ public class ThreadSocket extends Thread {
         System.out.println(users.toString());
         con.close();
         return users.toString();
-        
     }
+    
+    //
+    public int authenticate(String username, String password) throws SQLException {
+        try {
+            connectDB();
+        } catch (Exception ex) {
+            Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        sql = "select * from Users where username = '" + username + "' and password = '" + password + "'";
+        System.out.println(sql);
+        rs = stm.executeQuery(sql);
+//        StringBuilder user = new StringBuilder();
+        if (!rs.next()) {
+            return 0;
+        }
+        
+        return 1;
+    }
+    
 }

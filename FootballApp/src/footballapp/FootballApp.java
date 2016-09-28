@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -185,8 +186,19 @@ class LoginForm extends javax.swing.JFrame {
         DataInputStream receiver = new DataInputStream(sk.getInputStream());
 
         sender.writeUTF(username + "#" + password + "#login");
+        
         String result = receiver.readUTF();
         System.out.println(result);
+        
+        if(result.equals("OK")) {
+            this.setVisible(false);
+            new FootballApp().setVisible(true);
+            
+        }   
+        else {
+            JOptionPane.showMessageDialog(null, "Username or password do not match!");
+        }
+        
         sk.close();
         
         return 0;
