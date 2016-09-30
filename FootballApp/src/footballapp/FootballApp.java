@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -29,6 +30,7 @@ class LoginForm extends javax.swing.JFrame {
      */
     public LoginForm() {
         initComponents();
+       
     }
 
     /**
@@ -171,8 +173,10 @@ class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                             
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) throws Exception {                                            
-        login(String.valueOf(this.usernameField.getText()), String.valueOf(this.jPasswordField1.getPassword()));
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) throws Exception {
+        String username = String.valueOf(this.usernameField.getText());
+        String password = String.valueOf(this.jPasswordField1.getPassword());
+        login(username, password);
 //        int ack = login(Arrays.toString(this.usernameField.getText()), Arrays.toString(this.jPasswordField1.getPassword()));
         
     }                                           
@@ -192,8 +196,10 @@ class LoginForm extends javax.swing.JFrame {
         
         if(result.equals("OK")) {
             this.setVisible(false);
-            new FootballApp().setVisible(true);
-            
+            FootballApp fa = new FootballApp();
+            fa.setVisible(true);
+            fa.initData();
+
         }   
         else {
             JOptionPane.showMessageDialog(null, "Username or password do not match!");
@@ -226,6 +232,7 @@ public class FootballApp extends javax.swing.JFrame {
      */
     public FootballApp() {
         initComponents();
+        
         //customize elements
         table.getColumn("Team").setPreferredWidth(350);
         
@@ -268,7 +275,7 @@ public class FootballApp extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(495, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,10 +287,7 @@ public class FootballApp extends javax.swing.JFrame {
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "#", "Team", "PL", "W", "D", "L", "F", "A", "GD", "PTS"
@@ -309,8 +313,8 @@ public class FootballApp extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 26, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Table", jPanel2);
@@ -323,7 +327,7 @@ public class FootballApp extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 443, Short.MAX_VALUE)
+            .addGap(0, 376, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Fixtures", jPanel3);
@@ -373,6 +377,35 @@ public class FootballApp extends javax.swing.JFrame {
             Logger.getLogger(FootballApp.class.getName()).log(Level.SEVERE, null, ex);
         }
         return sk;
+    }
+    
+    void initData() throws IOException {
+        Socket sk = connectToServer();
+        DataOutputStream sender = new DataOutputStream(sk.getOutputStream());
+        DataInputStream receiver = new DataInputStream(sk.getInputStream());
+
+        sender.writeUTF("tableRequest");
+        
+        String result = receiver.readUTF();
+//        System.out.println(result);
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.getDataVector().clear();
+        if (result != null) {
+            String[] ranking = result.split(";");
+            if (ranking != null && ranking.length != 0) {
+                for (int i = 0; i < ranking.length; i++) {
+                    String row = ranking[i];
+                    String[] parts = row.split(",");
+                    model.addRow(new Object[]{parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8], parts[9]});
+                }
+            }
+        }
+        
+        
+        
+        sk.close();
+        
     }
     
     public static void main(String args[]) {

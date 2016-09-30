@@ -48,12 +48,16 @@ public class ThreadSocket extends Thread {
             while (din.available() != 0) {
                 st = din.readUTF();
                 System.out.println("Client sent: " + st);
-                arr = st.split("#");
                 
-                if (null != arr && arr.length == 3) {
-//                    System.out.println(arr[0]);
-//                    System.out.println(arr[1]);
-//                    System.out.println(arr[2]);
+                if(st.equals("tableRequest")) {
+                    String table = getTable();
+                    dos.writeUTF(table);
+                }
+                
+                
+                arr = st.split("#");                
+                //login
+                if (arr != null && arr.length == 3) {
                     if(arr[2].equals("login")) {
                         int isExisted = authenticate(arr[0], arr[1]);
                         
@@ -64,12 +68,9 @@ public class ThreadSocket extends Thread {
                         else {
                             dos.writeUTF("notOK");
                         }
-                                
-                        
-                        
                     }
                 }
-                        
+                
                 
                 
 //                String result = getUsers();
@@ -135,6 +136,41 @@ public class ThreadSocket extends Thread {
         return users.toString();
     }
     
+    public String getTable() throws Exception {
+
+        connectDB();
+        sql = "select * from Ranking";
+        rs = stm.executeQuery(sql);
+        StringBuilder table = new StringBuilder();
+        
+//        if (!rs.next()) {
+//            return "";
+//        }
+        while (rs.next()) {
+            String pos = rs.getString("pos");
+            String team = rs.getString("team");
+            String pl = rs.getString("pl");
+            String w = rs.getString("w");
+            String d = rs.getString("d");
+            String l = rs.getString("l");
+            String f = rs.getString("f");
+            String a = rs.getString("a");
+            String gd = rs.getString("gd");
+            String pts = rs.getString("pts");
+            
+
+            
+            String row = pos.trim() + "," + team.trim() + "," + pl.trim() + "," 
+                    + w.trim() + "," + d.trim() + "," + l.trim() + "," + f.trim() + "," + a.trim() + "," + gd.trim() + "," + pts.trim()+ ";";
+            table.append(row);
+        }
+        
+        System.out.print(table.toString());
+        
+        
+        return table.toString();
+    }
+    
     //
     public int authenticate(String username, String password) throws SQLException {
         try {
@@ -153,5 +189,7 @@ public class ThreadSocket extends Thread {
         
         return 1;
     }
+    
+    
     
 }
