@@ -17,11 +17,13 @@ begin
 	--update away scores
 	update Ranking set f = f + @ag, a = a + @hg where team = @away
 
-	--update goal difference
 	declare @gd int
 	set @gd = @hg - @ag
+
+	--update goal difference	
 	update Ranking set gd = gd + @gd where team = @home
 	update Ranking set gd = gd - @gd where team = @away
+	
 	--win, lose or draw
 	if(@gd > 0)
 		begin
@@ -32,9 +34,7 @@ begin
 	else if(@gd = 0)
 		begin
 			print 'tie'
-			update Ranking set pts = pts + 1 where team = @home or team = @away
-			update Ranking set d = d + 1 where team = @home
-			update Ranking set d = d + 1 where team = @away
+			update Ranking set pts = pts + 1, d = d + 1 where team = @home or team = @away
 		end
 	else
 		begin
@@ -47,6 +47,6 @@ begin
 end	
 go
 
-update Fixtures set home_goal = 2, away_goal = 2  where id = 1
-insert into Fixtures values (1, 'Southampton',  NULL, NULL, 'Watford', '08-13-2016', '21:00:00')
-delete from Fixtures where id = 1
+--update Fixtures set home_goal = 3, away_goal = 0  where id = 1
+--insert into Fixtures values (1, 'Southampton',  NULL, NULL, 'Watford', '08-13-2016', '21:00:00')
+--delete from Fixtures where id = 1
