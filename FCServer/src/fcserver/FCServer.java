@@ -21,9 +21,11 @@ public class FCServer {
      * @param args the command line arguments
      * 
      */
+    public static ServerSocket ss;
+    
     public static void main(String[] args) {
         try {
-            ServerSocket ss = new ServerSocket(9876);
+            ss = new ServerSocket(9876);
             
             InetAddress iAddress = InetAddress.getLocalHost();
             String serverIP = iAddress.getHostAddress();

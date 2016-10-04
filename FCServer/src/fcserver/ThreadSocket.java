@@ -139,7 +139,7 @@ public class ThreadSocket extends Thread {
     public String getTable() throws Exception {
 
         connectDB();
-        sql = "select * from Ranking";
+        sql = "select * from Ranking order by pos";
         rs = stm.executeQuery(sql);
         StringBuilder table = new StringBuilder();
         
@@ -165,7 +165,7 @@ public class ThreadSocket extends Thread {
             table.append(row);
         }
         
-        System.out.print(table.toString());
+//        System.out.print(table.toString());
         
         
         return table.toString();
