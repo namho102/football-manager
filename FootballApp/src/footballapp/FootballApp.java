@@ -198,7 +198,8 @@ class LoginForm extends javax.swing.JFrame {
             this.setVisible(false);
             FootballApp fa = new FootballApp();
             fa.setVisible(true);
-            fa.initData();
+            fa.initRanking();
+            fa.initFixture();
 
         }   
         else {
@@ -236,6 +237,9 @@ public class FootballApp extends javax.swing.JFrame {
         //customize elements
         table.getColumn("Team").setPreferredWidth(350);
         table.setAutoCreateRowSorter(true);
+        
+        fixtureTable.getColumn("Home").setPreferredWidth(250);
+        fixtureTable.getColumn("Away").setPreferredWidth(250);
 //        table.getColumn("Team").setB
     }
 
@@ -257,6 +261,8 @@ public class FootballApp extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        fixtureTable = new javax.swing.JTable();
 
         jLabel2.setText("jLabel2");
 
@@ -324,15 +330,33 @@ public class FootballApp extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Table", jPanel2);
 
+        fixtureTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "#", "Home", "", "", "Away", "Time", "Date"
+            }
+        ));
+        jScrollPane2.setViewportView(fixtureTable);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 965, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 363, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(194, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Fixtures", jPanel3);
@@ -384,12 +408,12 @@ public class FootballApp extends javax.swing.JFrame {
         return sk;
     }
     
-    void initData() throws IOException {
+    void initRanking() throws IOException {
         Socket sk = connectToServer();
         DataOutputStream sender = new DataOutputStream(sk.getOutputStream());
         DataInputStream receiver = new DataInputStream(sk.getInputStream());
 
-        sender.writeUTF("tableRequest");
+        sender.writeUTF("rankingRequest");
         
         String result = receiver.readUTF();
 //        System.out.println(result);
@@ -403,6 +427,33 @@ public class FootballApp extends javax.swing.JFrame {
                     String row = ranking[i];
                     String[] parts = row.split(",");
                     model.addRow(new Object[]{parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8], parts[9]});
+                }
+            }
+        }
+        
+        sk.close();
+        
+    }
+    
+    void initFixture() throws IOException {
+        Socket sk = connectToServer();
+        DataOutputStream sender = new DataOutputStream(sk.getOutputStream());
+        DataInputStream receiver = new DataInputStream(sk.getInputStream());
+
+        sender.writeUTF("fixtureRequest");
+        
+        String result = receiver.readUTF();
+//        System.out.println(result);
+
+        DefaultTableModel model = (DefaultTableModel) fixtureTable.getModel();
+        model.getDataVector().clear();
+        if (result != null) {
+            String[] fixtures = result.split(";");
+            if (fixtures != null && fixtures.length != 0) {
+                for (int i = 0; i < fixtures.length; i++) {
+                    String row = fixtures[i];
+                    String[] parts = row.split(",");
+                    model.addRow(new Object[]{parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]});
                 }
             }
         }
@@ -454,6 +505,7 @@ public class FootballApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable fixtureTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -461,6 +513,7 @@ public class FootballApp extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables

@@ -49,11 +49,15 @@ public class ThreadSocket extends Thread {
                 st = din.readUTF();
                 System.out.println("Client sent: " + st);
                 
-                if(st.equals("tableRequest")) {
-                    String table = getTable();
+                if(st.equals("rankingRequest")) {
+                    String table = getRanking();
                     dos.writeUTF(table);
                 }
                 
+                else if(st.equals("fixtureRequest")) {
+                    String table = getFixture();
+                    dos.writeUTF(table);
+                }
                 
                 arr = st.split("#");                
                 //login
@@ -136,7 +140,7 @@ public class ThreadSocket extends Thread {
         return users.toString();
     }
     
-    public String getTable() throws Exception {
+    public String getRanking() throws Exception {
 
         connectDB();
         sql = "select * from Ranking order by pos";
@@ -162,6 +166,41 @@ public class ThreadSocket extends Thread {
             
             String row = pos.trim() + "," + team.trim() + "," + pl.trim() + "," 
                     + w.trim() + "," + d.trim() + "," + l.trim() + "," + f.trim() + "," + a.trim() + "," + gd.trim() + "," + pts.trim()+ ";";
+            table.append(row);
+        }
+        
+//        System.out.print(table.toString());
+        
+        
+        return table.toString();
+    }
+    
+    public String getFixture() throws Exception {
+
+        connectDB();
+        sql = "select * from Fixtures";
+        rs = stm.executeQuery(sql);
+        StringBuilder table = new StringBuilder();
+        
+//        if (!rs.next()) {
+//            return "";
+//        }
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String home = rs.getString("home");
+            String home_goal = rs.getString("home_goal");
+            String away_goal = rs.getString("away_goal");
+            String away = rs.getString("away");
+            String date = rs.getString("date");
+            String time = rs.getString("time");
+//            String a = rs.getString("a");
+//            String gd = rs.getString("gd");
+//            String pts = rs.getString("pts");
+//            
+
+            
+            String row = id.trim() + "," + home.trim() + "," + home_goal.trim() + "," 
+                    + away_goal.trim() + "," + away.trim() + "," + time.trim() + "," + date.trim() + ";";
             table.append(row);
         }
         
