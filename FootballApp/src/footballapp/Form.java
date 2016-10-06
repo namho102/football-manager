@@ -29,10 +29,10 @@ public class Form extends javax.swing.JFrame {
         initComponents();
 //        datePicker1.setDateToToday();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-        LocalDate date = LocalDate.parse("08-13-2016", formatter);
+            LocalDate date = LocalDate.parse("08-13-2016", formatter);
 
         datePicker1.setDate(date);
-        LocalTime time = LocalTime.parse("10:15:30.123456789");
+        LocalTime time = LocalTime.parse("20:15");
         timePicker1.setTime(time);
         datePicker1.addDateChangeListener(new SampleDateChangeListener("datePicker1"));
         jTable1.getColumn("Home").setMaxWidth(36);

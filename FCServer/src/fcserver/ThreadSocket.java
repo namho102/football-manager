@@ -178,7 +178,8 @@ public class ThreadSocket extends Thread {
     public String getFixture() throws Exception {
 
         connectDB();
-        sql = "select * from Fixtures";
+//        sql = "select * from Fixtures";
+        sql = "SELECT id, home, home_goal, away_goal, away, CONVERT(VARCHAR(10), time, 100) as time, CONVERT(VARCHAR(10), date, 105) as date from Fixtures";
         rs = stm.executeQuery(sql);
         StringBuilder table = new StringBuilder();
         
@@ -191,8 +192,8 @@ public class ThreadSocket extends Thread {
             String home_goal = rs.getString("home_goal");
             String away_goal = rs.getString("away_goal");
             String away = rs.getString("away");
-            String date = rs.getString("date");
             String time = rs.getString("time");
+            String date = rs.getString("date");
 //            String a = rs.getString("a");
 //            String gd = rs.getString("gd");
 //            String pts = rs.getString("pts");
