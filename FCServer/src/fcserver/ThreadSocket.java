@@ -49,31 +49,44 @@ public class ThreadSocket extends Thread {
                 st = din.readUTF();
                 System.out.println("Client sent: " + st);
 
-                if (st.equals("rankingRequest")) {
-                    String table = getRanking();
-                    dos.writeUTF(table);
-                } else if (st.equals("fixtureRequest")) {
-                    String table = getFixture();
-                    dos.writeUTF(table);
-                } else if (st.equals("clubRequest")) {
-                    String table = getClub();
-                    dos.writeUTF(table);
-                }
-
-                arr = st.split("#");
-                //login
-                if (arr != null && arr.length == 3) {
-                    if (arr[2].equals("login")) {
-                        int isExisted = authenticate(arr[0], arr[1]);
-
-                        System.out.println(isExisted);
-                        if (isExisted != 0) {
-                            dos.writeUTF("OK");
-                        } else {
-                            dos.writeUTF("notOK");
+                switch (st) {
+                    case "rankingRequest":
+                        {
+                            String table = getRanking();
+                            dos.writeUTF(table);
+                            break;
                         }
-                    }
+                    case "fixtureRequest":
+                        {
+                            String table = getFixture();
+                            dos.writeUTF(table);
+                            break;
+                        }
+                    case "clubRequest":
+                        {
+                            String table = getClub();
+                            dos.writeUTF(table);
+                            break;
+                        }
+                    default:
+                        arr = st.split("#");
+                        //login
+                        if (arr != null && arr.length == 3) {
+                            if (arr[2].equals("login")) {
+                                int isExisted = authenticate(arr[0], arr[1]);
+
+                                System.out.println(isExisted);
+                                if (isExisted != 0) {
+                                    dos.writeUTF("OK");
+                                } else {
+                                    dos.writeUTF("notOK");
+                                }
+                            }
+                        }
+                        break;
                 }
+
+                
 
 //                String result = getUsers();
 //                System.out.print(result);
@@ -185,13 +198,15 @@ public class ThreadSocket extends Thread {
             String away = rs.getString("away");
             String time = rs.getString("time");
             String date = rs.getString("date");
-//            String a = rs.getString("a");
-//            String gd = rs.getString("gd");
-//            String pts = rs.getString("pts");
-//            
+            
+            if(home_goal == null) {
+                home_goal = "";
+                away_goal = "";
+            }
 
             String row = id.trim() + "," + home.trim() + "," + home_goal.trim() + ","
                     + away_goal.trim() + "," + away.trim() + "," + time.trim() + "," + date.trim() + ";";
+//            System.out.println(row);
             table.append(row);
         }
 
