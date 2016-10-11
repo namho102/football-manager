@@ -39,54 +39,51 @@ public class ThreadSocket extends Thread {
         try {
             String[] arr = {null};
             String st = "";
-            
+
             DataInputStream din = new DataInputStream(socket.getInputStream());
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-            
+
             System.out.println("Processing data. . .");
 
             while (din.available() != 0) {
                 st = din.readUTF();
                 System.out.println("Client sent: " + st);
-                
-                if(st.equals("rankingRequest")) {
+
+                if (st.equals("rankingRequest")) {
                     String table = getRanking();
                     dos.writeUTF(table);
-                }
-                
-                else if(st.equals("fixtureRequest")) {
+                } else if (st.equals("fixtureRequest")) {
                     String table = getFixture();
                     dos.writeUTF(table);
+                } else if (st.equals("clubRequest")) {
+                    String table = getClub();
+                    dos.writeUTF(table);
                 }
-                
-                arr = st.split("#");                
+
+                arr = st.split("#");
                 //login
                 if (arr != null && arr.length == 3) {
-                    if(arr[2].equals("login")) {
+                    if (arr[2].equals("login")) {
                         int isExisted = authenticate(arr[0], arr[1]);
-                        
+
                         System.out.println(isExisted);
-                        if(isExisted != 0) {
+                        if (isExisted != 0) {
                             dos.writeUTF("OK");
-                        }
-                        else {
+                        } else {
                             dos.writeUTF("notOK");
                         }
                     }
                 }
-                
-                
-                
+
 //                String result = getUsers();
-                
 //                System.out.print(result);
                 Thread.sleep(1000);
-                
+
                 dos.flush();
             }
-      
+
         } catch (IOException | InterruptedException e) {
-            
+
         } catch (Exception ex) {
             Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -99,7 +96,7 @@ public class ThreadSocket extends Thread {
             String URL = "jdbc:sqlserver://localhost:1433;databaseName=FootballDB";
 //            String URL = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyDiemSV2";
             String user = "tester01";
-            String pass = "123456"; 
+            String pass = "123456";
             con = DriverManager.getConnection(URL, user, pass);
             stm = con.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
@@ -113,7 +110,7 @@ public class ThreadSocket extends Thread {
         sql = "select * from Users";
         rs = stm.executeQuery(sql);
         StringBuilder users = new StringBuilder();
-        
+
 //        if (!rs.next()) {
 //            return "";
 //        }
@@ -127,26 +124,24 @@ public class ThreadSocket extends Thread {
             if (sPassword == null) {
                 sPassword = "";
             }
-        
+
             String user = sName.trim() + "," + sPassword.trim() + ";";
             users.append(user);
         }
-        
-        
-        
+
 //        System.out.println("end");
         System.out.println(users.toString());
         con.close();
         return users.toString();
     }
-    
+
     public String getRanking() throws Exception {
 
         connectDB();
         sql = "select * from Ranking order by pos";
         rs = stm.executeQuery(sql);
         StringBuilder table = new StringBuilder();
-        
+
 //        if (!rs.next()) {
 //            return "";
 //        }
@@ -161,20 +156,16 @@ public class ThreadSocket extends Thread {
             String a = rs.getString("a");
             String gd = rs.getString("gd");
             String pts = rs.getString("pts");
-            
 
-            
-            String row = pos.trim() + "," + team.trim() + "," + pl.trim() + "," 
-                    + w.trim() + "," + d.trim() + "," + l.trim() + "," + f.trim() + "," + a.trim() + "," + gd.trim() + "," + pts.trim()+ ";";
+            String row = pos.trim() + "," + team.trim() + "," + pl.trim() + ","
+                    + w.trim() + "," + d.trim() + "," + l.trim() + "," + f.trim() + "," + a.trim() + "," + gd.trim() + "," + pts.trim() + ";";
             table.append(row);
         }
-        
+
 //        System.out.print(table.toString());
-        
-        
         return table.toString();
     }
-    
+
     public String getFixture() throws Exception {
 
         connectDB();
@@ -182,7 +173,7 @@ public class ThreadSocket extends Thread {
         sql = "SELECT id, home, home_goal, away_goal, away, CONVERT(VARCHAR(10), time, 100) as time, CONVERT(VARCHAR(10), date, 105) as date from Fixtures";
         rs = stm.executeQuery(sql);
         StringBuilder table = new StringBuilder();
-        
+
 //        if (!rs.next()) {
 //            return "";
 //        }
@@ -199,18 +190,34 @@ public class ThreadSocket extends Thread {
 //            String pts = rs.getString("pts");
 //            
 
-            
-            String row = id.trim() + "," + home.trim() + "," + home_goal.trim() + "," 
+            String row = id.trim() + "," + home.trim() + "," + home_goal.trim() + ","
                     + away_goal.trim() + "," + away.trim() + "," + time.trim() + "," + date.trim() + ";";
             table.append(row);
         }
-        
+
 //        System.out.print(table.toString());
-        
-        
         return table.toString();
     }
     
+    public String getClub() throws Exception {
+        connectDB();
+//        sql = "select * from Fixtures";
+        sql = "SELECT name from Clubs";
+        rs = stm.executeQuery(sql);
+        StringBuilder table = new StringBuilder();
+
+
+        while (rs.next()) {
+            String name = rs.getString("name");
+
+
+            String row = name.trim() + ";";
+            table.append(row);
+        }
+
+//        System.out.print(table.toString());
+        return table.toString();
+    }
     //
     public int authenticate(String username, String password) throws SQLException {
         try {
@@ -218,7 +225,7 @@ public class ThreadSocket extends Thread {
         } catch (Exception ex) {
             Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+
         sql = "select * from Users where username = '" + username + "' and password = '" + password + "'";
         System.out.println(sql);
         rs = stm.executeQuery(sql);
@@ -226,10 +233,8 @@ public class ThreadSocket extends Thread {
         if (!rs.next()) {
             return 0;
         }
-        
+
         return 1;
     }
-    
-    
-    
+
 }
