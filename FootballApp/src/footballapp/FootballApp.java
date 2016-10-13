@@ -10,6 +10,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -613,9 +614,11 @@ public class FootballApp extends javax.swing.JFrame {
                 String home = (String) homeComboBox.getSelectedItem();
                 String away = (String) awayComboBox.getSelectedItem();
                 LocalTime t = timePicker.getTime();
+                LocalDate d = datePicker.getDate();
                 String time = t.toString();
+                String date = d.toString();
 
-                addNewGame(home, away, time, "");
+                addNewGame(home, away, time, date);
 
             } catch (IOException ex) {
                 Logger.getLogger(FootballApp.class.getName()).log(Level.SEVERE, null, ex);
@@ -629,7 +632,7 @@ public class FootballApp extends javax.swing.JFrame {
     Socket connectToServer() {
         Socket sk = null;
         try {
-            sk = new Socket("192.168.1.2", 9876);
+            sk = new Socket("192.168.1.4", 9876);
         } catch (IOException ex) {
             Logger.getLogger(FootballApp.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -712,15 +715,13 @@ public class FootballApp extends javax.swing.JFrame {
 
     void addNewGame(String home, String away, String time, String date) throws IOException {
 
-        System.out.println(home);
-        System.out.println(away);
-        System.out.println(time);
-        System.out.println(date);
+        
+        
         Socket sk = connectToServer();
         DataOutputStream sender = new DataOutputStream(sk.getOutputStream());
         DataInputStream receiver = new DataInputStream(sk.getInputStream());
 
-//        sender.writeUTF("clubRequest");
+        sender.writeUTF(home + "#" + away + "#" + time + "#" + date + "#" + "addGame");
 //        String result = receiver.readUTF();
         sk.close();
 

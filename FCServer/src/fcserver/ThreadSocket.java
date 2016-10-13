@@ -83,6 +83,13 @@ public class ThreadSocket extends Thread {
                                 }
                             }
                         }
+                        if (arr != null && arr.length == 5) {
+                            if (arr[4].equals("addGame")) {
+                                insert(arr[0], arr[1], arr[2], arr[3]);
+
+                                dos.writeUTF("added");
+                            }
+                        }
                         break;
                 }
 
@@ -144,7 +151,7 @@ public class ThreadSocket extends Thread {
 
 //        System.out.println("end");
         System.out.println(users.toString());
-        con.close();
+//        con.close();
         return users.toString();
     }
 
@@ -174,7 +181,7 @@ public class ThreadSocket extends Thread {
                     + w.trim() + "," + d.trim() + "," + l.trim() + "," + f.trim() + "," + a.trim() + "," + gd.trim() + "," + pts.trim() + ";";
             table.append(row);
         }
-
+        con.close();
 //        System.out.print(table.toString());
         return table.toString();
     }
@@ -209,7 +216,7 @@ public class ThreadSocket extends Thread {
 //            System.out.println(row);
             table.append(row);
         }
-
+//        con.close();
 //        System.out.print(table.toString());
         return table.toString();
     }
@@ -229,7 +236,7 @@ public class ThreadSocket extends Thread {
             String row = name.trim() + ";";
             table.append(row);
         }
-
+//        con.close();
 //        System.out.print(table.toString());
         return table.toString();
     }
@@ -244,12 +251,37 @@ public class ThreadSocket extends Thread {
         sql = "select * from Users where username = '" + username + "' and password = '" + password + "'";
         System.out.println(sql);
         rs = stm.executeQuery(sql);
+        
+//        con.close();
 //        StringBuilder user = new StringBuilder();
         if (!rs.next()) {
             return 0;
         }
 
         return 1;
+    }
+    
+    public void insert(String home, String away, String time, String date) throws SQLException {
+        try {
+            connectDB();
+        } catch (Exception ex) {
+            Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//        
+//        System.out.println(home);
+//        System.out.println(away);
+//        System.out.println(time);
+//        System.out.println(date);
+        
+//
+        sql = "insert into Fixtures (home, home_goal, away_goal, away, Fixtures.time, Fixtures.date) "
+                + "values ('" + home + "',  NULL, NULL, '" + away + "', '" + time + "', '" + date + " ')";
+        System.out.println(sql);
+        int row = 0;
+        row = stm.executeUpdate(sql);
+        
+//        con.close();
+        
     }
 
 }
