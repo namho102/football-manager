@@ -18,7 +18,6 @@ import java.util.logging.*;
 public class FCServer {
 
     /**
-     * @param args the command line arguments
      * 
      */
     public static ServerSocket ss;

@@ -266,13 +266,13 @@ public class FootballApp extends javax.swing.JFrame {
         fixtureTable = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        homeLabel = new javax.swing.JLabel();
         homeComboBox = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         homeScore = new javax.swing.JTextField();
         awayScore = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        awayLabel = new javax.swing.JLabel();
         awayComboBox = new javax.swing.JComboBox<>();
         jPanel9 = new javax.swing.JPanel();
         timePicker = new com.github.lgooddatepicker.components.TimePicker();
@@ -290,10 +290,10 @@ public class FootballApp extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 162, 115));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/smallball.png"))); // NOI18N
-        jLabel1.setText("FootballManager");
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Proxima Nova Alt Bl", 3, 36)); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/smallball.png"))); // NOI18N
+        jLabel1.setText("FootballManager");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -336,12 +336,12 @@ public class FootballApp extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                 .addGap(13, 13, 13))
         );
 
@@ -360,7 +360,7 @@ public class FootballApp extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(fixtureTable);
 
-        jLabel4.setText("Home");
+        homeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/AFC Bournemouth.png"))); // NOI18N
 
         homeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         homeComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -379,18 +379,18 @@ public class FootballApp extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(homeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(jLabel4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(39, 39, 39)
+                        .addComponent(homeLabel)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addComponent(homeLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(homeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jPanel6.setBackground(new java.awt.Color(208, 67, 72));
@@ -430,32 +430,36 @@ public class FootballApp extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel5.setText("Away");
+        awayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/AFC Bournemouth.png"))); // NOI18N
 
         awayComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        awayComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                awayComboBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(awayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(awayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addComponent(jLabel5)))
+                .addGap(42, 42, 42)
+                .addComponent(awayLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addComponent(awayLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(awayComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jLabel3.setText("Time");
@@ -507,9 +511,9 @@ public class FootballApp extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(28, 28, 28)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -524,14 +528,17 @@ public class FootballApp extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addGap(82, 82, 82)
+                                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addGap(116, 116, 116)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(124, 124, 124)
                         .addComponent(addButton)))
                 .addContainerGap(101, Short.MAX_VALUE))
         );
@@ -543,7 +550,7 @@ public class FootballApp extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
@@ -603,8 +610,11 @@ public class FootballApp extends javax.swing.JFrame {
 
     private void homeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeComboBoxActionPerformed
 
-//        String homeName = (String)homeComboBox.getSelectedItem();
+        String homeName = (String)homeComboBox.getSelectedItem();
 //        System.out.println(homeName);
+        homeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/" + homeName + ".png"))); 
+        
+        
     }//GEN-LAST:event_homeComboBoxActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -619,12 +629,18 @@ public class FootballApp extends javax.swing.JFrame {
                 String date = d.toString();
 
                 addNewGame(home, away, time, date);
-
+                
             } catch (IOException ex) {
                 Logger.getLogger(FootballApp.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void awayComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_awayComboBoxActionPerformed
+        String awayName = (String)awayComboBox.getSelectedItem();
+//        System.out.println(awayName);
+        awayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/" + awayName + ".png"))); 
+    }//GEN-LAST:event_awayComboBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -632,7 +648,7 @@ public class FootballApp extends javax.swing.JFrame {
     Socket connectToServer() {
         Socket sk = null;
         try {
-            sk = new Socket("192.168.1.4", 9876);
+            sk = new Socket("192.168.1.2", 9876);
         } catch (IOException ex) {
             Logger.getLogger(FootballApp.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -681,8 +697,7 @@ public class FootballApp extends javax.swing.JFrame {
         if (result != null) {
             String[] fixtures = result.split(";");
             if (fixtures != null && fixtures.length != 0) {
-                for (int i = 0; i < fixtures.length; i++) {
-                    String row = fixtures[i];
+                for (String row : fixtures) {
                     String[] parts = row.split(",");
                     model.addRow(new Object[]{parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]});
                 }
@@ -722,8 +737,13 @@ public class FootballApp extends javax.swing.JFrame {
         DataInputStream receiver = new DataInputStream(sk.getInputStream());
 
         sender.writeUTF(home + "#" + away + "#" + time + "#" + date + "#" + "addGame");
-//        String result = receiver.readUTF();
+        String result = receiver.readUTF();
         sk.close();
+        
+        if("added".equals(result)) {
+            initFixture();
+        }
+        
 
     }
 
@@ -771,16 +791,16 @@ public class FootballApp extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JComboBox<String> awayComboBox;
+    private javax.swing.JLabel awayLabel;
     private javax.swing.JTextField awayScore;
     private com.github.lgooddatepicker.components.DatePicker datePicker;
     private javax.swing.JTable fixtureTable;
     private javax.swing.JComboBox<String> homeComboBox;
+    private javax.swing.JLabel homeLabel;
     private javax.swing.JTextField homeScore;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

@@ -85,9 +85,11 @@ public class ThreadSocket extends Thread {
                         }
                         if (arr != null && arr.length == 5) {
                             if (arr[4].equals("addGame")) {
-                                insert(arr[0], arr[1], arr[2], arr[3]);
-
-                                dos.writeUTF("added");
+                                int r = insert(arr[0], arr[1], arr[2], arr[3]);
+                                if(1 == r) {
+                                    dos.writeUTF("added");
+                                }
+                                
                             }
                         }
                         break;
@@ -207,8 +209,8 @@ public class ThreadSocket extends Thread {
             String date = rs.getString("date");
             
             if(home_goal == null) {
-                home_goal = "";
-                away_goal = "";
+                home_goal = "?";
+                away_goal = "?";
             }
 
             String row = id.trim() + "," + home.trim() + "," + home_goal.trim() + ","
@@ -261,7 +263,7 @@ public class ThreadSocket extends Thread {
         return 1;
     }
     
-    public void insert(String home, String away, String time, String date) throws SQLException {
+    public int insert(String home, String away, String time, String date) throws SQLException {
         try {
             connectDB();
         } catch (Exception ex) {
@@ -280,7 +282,7 @@ public class ThreadSocket extends Thread {
         int row = 0;
         row = stm.executeUpdate(sql);
         
-//        con.close();
+      return row;
         
     }
 
