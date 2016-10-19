@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 /**
  *
@@ -181,10 +182,25 @@ public class Form extends javax.swing.JFrame {
    
         
     }
+    public static byte[] encrypt(String x) throws Exception {
+        java.security.MessageDigest d = null;
+        d = java.security.MessageDigest.getInstance("MD5");
+        d.reset();
+        d.update(x.getBytes());
+        return d.digest();
+    }
+    public static String byteArrayToHexString(byte[] b) {
+        String result = "";
+        for (int i=0; i < b.length; i++) {
+          result +=
+                Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
+        }
+        return result;
+     }
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -209,13 +225,15 @@ public class Form extends javax.swing.JFrame {
         //</editor-fold>
         
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Form().setVisible(true);
-                
-                
-            }
-        });
+        System.out.println(byteArrayToHexString(encrypt("123456")));
+        
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Form().setVisible(true);
+//                
+//                
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

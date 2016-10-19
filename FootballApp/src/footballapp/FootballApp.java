@@ -10,6 +10,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -110,7 +111,7 @@ class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        jPasswordField1.setText("123456");
+        jPasswordField1.setText("");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -171,11 +172,29 @@ class LoginForm extends javax.swing.JFrame {
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    
+    public static byte[] encrypt(String x) throws Exception {
+        MessageDigest d = null;
+        d = MessageDigest.getInstance("MD5");
+        d.reset();
+        d.update(x.getBytes());
+        return d.digest();
+    }
+     
+    public static String byteArrayToHexString(byte[] b) {
+        String result = "";
+        for (int i=0; i < b.length; i++) {  
+          result +=
+                Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
+        }
+        return result;
+     }
+    
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) throws Exception {
 
         String username = String.valueOf(this.usernameField.getText());
         String password = String.valueOf(this.jPasswordField1.getPassword());
+        password = byteArrayToHexString(encrypt(password));
 
         try {
             login(username, password);
@@ -185,7 +204,9 @@ class LoginForm extends javax.swing.JFrame {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+     
+    
     private int login(String username, String password) throws Exception {
         System.out.println(username);
         System.out.println(password);
@@ -746,7 +767,7 @@ public class FootballApp extends javax.swing.JFrame {
         
 
     }
-
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
