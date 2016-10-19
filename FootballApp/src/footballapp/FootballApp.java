@@ -111,7 +111,7 @@ class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        jPasswordField1.setText("");
+        jPasswordField1.setText("123456");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -208,8 +208,8 @@ class LoginForm extends javax.swing.JFrame {
      
     
     private int login(String username, String password) throws Exception {
-        System.out.println(username);
-        System.out.println(password);
+//        System.out.println(username);
+//        System.out.println(password);
         Socket sk = new FootballApp().connectToServer();
 
         DataOutputStream sender = new DataOutputStream(sk.getOutputStream());
@@ -218,17 +218,22 @@ class LoginForm extends javax.swing.JFrame {
         sender.writeUTF(username + "#" + password + "#login");
 
         String result = receiver.readUTF();
-        System.out.println(result);
-
-        if (result.equals("OK")) {
+        
+        if (!result.equals("notFound")) {
             this.setVisible(false);
             FootballApp fa = new FootballApp();
             fa.setVisible(true);
+
+            if(result.equals("admin")) {
+                fa.enableSetting();
+            }
+
             
             fa.initRanking();
             fa.initFixture();
             fa.initClubs();
-
+            
+            
         } else {
             JOptionPane.showMessageDialog(null, "Username or password do not match!");
         }
@@ -311,10 +316,10 @@ public class FootballApp extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 162, 115));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Proxima Nova Alt Bl", 3, 36)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/smallball.png"))); // NOI18N
         jLabel1.setText("FootballManager");
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Proxima Nova Alt Bl", 3, 36)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -519,6 +524,9 @@ public class FootballApp extends javax.swing.JFrame {
         );
 
         addButton.setText("ADD");
+        addButton.setBackground(new java.awt.Color(223, 221, 90));
+        addButton.setEnabled(false);
+        addButton.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
@@ -539,8 +547,8 @@ public class FootballApp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,8 +567,8 @@ public class FootballApp extends javax.swing.JFrame {
                         .addGap(116, 116, 116)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addComponent(addButton)))
+                        .addGap(113, 113, 113)
+                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(101, Short.MAX_VALUE))
         );
 
@@ -751,8 +759,6 @@ public class FootballApp extends javax.swing.JFrame {
 
     void addNewGame(String home, String away, String time, String date) throws IOException {
 
-        
-        
         Socket sk = connectToServer();
         DataOutputStream sender = new DataOutputStream(sk.getOutputStream());
         DataInputStream receiver = new DataInputStream(sk.getInputStream());
@@ -766,6 +772,10 @@ public class FootballApp extends javax.swing.JFrame {
         }
         
 
+    }
+    
+    void enableSetting() {
+        addButton.setEnabled(true);
     }
     
     public static void main(String args[]) {
@@ -838,4 +848,6 @@ public class FootballApp extends javax.swing.JFrame {
     private javax.swing.JTable table;
     private com.github.lgooddatepicker.components.TimePicker timePicker;
     // End of variables declaration//GEN-END:variables
+
+    
 }

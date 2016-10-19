@@ -73,14 +73,15 @@ public class ThreadSocket extends Thread {
                         //login
                         if (arr != null && arr.length == 3) {
                             if (arr[2].equals("login")) {
-                                int isExisted = authenticate(arr[0], arr[1]);
+                                String status = authenticate(arr[0], arr[1]);
 
-                                System.out.println(isExisted);
-                                if (isExisted != 0) {
-                                    dos.writeUTF("OK");
-                                } else {
-                                    dos.writeUTF("notOK");
-                                }
+                                System.out.println(status);
+                                dos.writeUTF(status);
+//                                if (isExisted != ) {
+//                                    dos.writeUTF("OK");
+//                                } else {
+//                                    dos.writeUTF("notOK");
+//                                }
                             }
                         }
                         if (arr != null && arr.length == 5) {
@@ -137,17 +138,17 @@ public class ThreadSocket extends Thread {
 //            return "";
 //        }
         while (rs.next()) {
-            String sName = rs.getString("username");
-            String sPassword = rs.getString("password");
-
-            if (sName == null) {
-                sName = "";
+            String name = rs.getString("username");
+            String password = rs.getString("password");
+   
+            if (name == null) {
+                name = "";
             }
-            if (sPassword == null) {
-                sPassword = "";
+            if (password == null) {
+                password = "";
             }
 
-            String user = sName.trim() + "," + sPassword.trim() + ";";
+            String user = name.trim() + "," + password.trim() + ";";
             users.append(user);
         }
 
@@ -243,7 +244,7 @@ public class ThreadSocket extends Thread {
         return table.toString();
     }
     //
-    public int authenticate(String username, String password) throws SQLException {
+    public String authenticate(String username, String password) throws SQLException {
         try {
             connectDB();
         } catch (Exception ex) {
@@ -256,11 +257,11 @@ public class ThreadSocket extends Thread {
         
 //        con.close();
 //        StringBuilder user = new StringBuilder();
-        if (!rs.next()) {
-            return 0;
+        if (rs.next()) {
+            return rs.getString("role").trim();
         }
 
-        return 1;
+        return "notFound";
     }
     
     public int insert(String home, String away, String time, String date) throws SQLException {
@@ -282,7 +283,7 @@ public class ThreadSocket extends Thread {
         int row = 0;
         row = stm.executeUpdate(sql);
         
-      return row;
+        return row;
         
     }
 

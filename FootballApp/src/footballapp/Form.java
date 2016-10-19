@@ -182,21 +182,7 @@ public class Form extends javax.swing.JFrame {
    
         
     }
-    public static byte[] encrypt(String x) throws Exception {
-        java.security.MessageDigest d = null;
-        d = java.security.MessageDigest.getInstance("MD5");
-        d.reset();
-        d.update(x.getBytes());
-        return d.digest();
-    }
-    public static String byteArrayToHexString(byte[] b) {
-        String result = "";
-        for (int i=0; i < b.length; i++) {
-          result +=
-                Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
-        }
-        return result;
-     }
+
     /**
      * @param args the command line arguments
      */
@@ -225,15 +211,14 @@ public class Form extends javax.swing.JFrame {
         //</editor-fold>
         
         /* Create and display the form */
-        System.out.println(byteArrayToHexString(encrypt("123456")));
         
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Form().setVisible(true);
-//                
-//                
-//            }
-//        });
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Form().setVisible(true);
+                
+                
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
