@@ -193,7 +193,7 @@ public class ThreadSocket extends Thread {
 
         connectDB();
 //        sql = "select * from Fixtures";
-        sql = "SELECT id, home, home_goal, away_goal, away, CONVERT(VARCHAR(10), time, 100) as time, CONVERT(VARCHAR(10), date, 105) as date from Fixtures";
+        sql = "SELECT id, home, home_goal, away_goal, away, CONVERT(VARCHAR(10), time, 100) as time, CONVERT(VARCHAR(10), date, 105) as date from Fixtures order by id";
         rs = stm.executeQuery(sql);
         StringBuilder table = new StringBuilder();
 
