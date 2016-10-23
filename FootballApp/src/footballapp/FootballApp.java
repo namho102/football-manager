@@ -11,8 +11,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -385,6 +388,11 @@ public class FootballApp extends javax.swing.JFrame {
                 "#", "Home", "", "", "Away", "Time", "Date"
             }
         ));
+        fixtureTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fixtureTableMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(fixtureTable);
 
         homeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Arsenal.png"))); // NOI18N
@@ -671,6 +679,24 @@ public class FootballApp extends javax.swing.JFrame {
 //        System.out.println(awayName);
         awayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/" + awayName + ".png"))); 
     }//GEN-LAST:event_awayComboBoxActionPerformed
+
+    private void fixtureTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fixtureTableMouseClicked
+        int row = fixtureTable.getSelectedRow();
+        if (row != -1) {
+            String id = fixtureTable.getValueAt(row, 0).toString();
+//            System.out.println(id);
+            homeComboBox.setSelectedItem(fixtureTable.getValueAt(row, 1).toString());
+            awayComboBox.setSelectedItem(fixtureTable.getValueAt(row, 4).toString());
+            homeScore.setText(fixtureTable.getValueAt(row, 2).toString());
+            awayScore.setText(fixtureTable.getValueAt(row, 3).toString());
+            
+            LocalTime t = LocalTime.parse(fixtureTable.getValueAt(row, 5).toString(), DateTimeFormatter.ofPattern("h:mma"));
+            timePicker.setTime(t);
+            LocalDate d = LocalDate.parse(fixtureTable.getValueAt(row, 6).toString(), DateTimeFormatter.ofPattern("d-M-yyy"));
+            datePicker.setDate(d);
+        }
+
+    }//GEN-LAST:event_fixtureTableMouseClicked
 
     /**
      * @param args the command line arguments
