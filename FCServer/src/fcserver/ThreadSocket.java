@@ -93,6 +93,15 @@ public class ThreadSocket extends Thread {
                                 
                             }
                         }
+                        if (arr != null && arr.length == 4) {
+                            if (arr[3].equals("updateGame")) {
+                                int r = update(arr[0], arr[1], arr[2]);
+                                if(1 == r) {
+                                    dos.writeUTF("updated");
+                                }
+                                
+                            }
+                        }
                         break;
                 }
 
@@ -279,6 +288,22 @@ public class ThreadSocket extends Thread {
 //
         sql = "insert into Fixtures (home, home_goal, away_goal, away, Fixtures.time, Fixtures.date) "
                 + "values ('" + home + "',  NULL, NULL, '" + away + "', '" + time + "', '" + date + " ')";
+        System.out.println(sql);
+        int row = 0;
+        row = stm.executeUpdate(sql);
+        
+        return row;
+        
+    }
+    
+    public int update(String matchID, String hg, String ag) throws SQLException {
+        try {
+            connectDB();
+        } catch (Exception ex) {
+            Logger.getLogger(ThreadSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        sql = "update Fixtures set home_goal = " +  hg+ ", away_goal = " + ag + "  where id = " + matchID;
         System.out.println(sql);
         int row = 0;
         row = stm.executeUpdate(sql);

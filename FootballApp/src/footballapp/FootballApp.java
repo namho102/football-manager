@@ -259,7 +259,8 @@ class LoginForm extends javax.swing.JFrame {
 }
 
 public class FootballApp extends javax.swing.JFrame {
-
+    
+    public static String matchID = "";
     /**
      * Creates new form FootballApp
      */
@@ -310,6 +311,7 @@ public class FootballApp extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         addButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -366,7 +368,7 @@ public class FootballApp extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 982, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,6 +433,11 @@ public class FootballApp extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(208, 67, 72));
 
         homeScore.setText("?");
+        homeScore.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeScoreMouseClicked(evt);
+            }
+        });
         homeScore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 homeScoreActionPerformed(evt);
@@ -438,6 +445,11 @@ public class FootballApp extends javax.swing.JFrame {
         });
 
         awayScore.setText("?");
+        awayScore.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                awayScoreMouseClicked(evt);
+            }
+        });
         awayScore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 awayScoreActionPerformed(evt);
@@ -542,6 +554,16 @@ public class FootballApp extends javax.swing.JFrame {
             }
         });
 
+        updateButton.setBackground(new java.awt.Color(0, 204, 204));
+        updateButton.setFont(new java.awt.Font("Montserrat", 1, 13)); // NOI18N
+        updateButton.setText("UPDATE");
+        updateButton.setEnabled(false);
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -551,12 +573,14 @@ public class FootballApp extends javax.swing.JFrame {
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateButton))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -574,11 +598,14 @@ public class FootballApp extends javax.swing.JFrame {
                                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(116, 116, 116)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(42, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -588,7 +615,7 @@ public class FootballApp extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 972, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
@@ -684,6 +711,7 @@ public class FootballApp extends javax.swing.JFrame {
         int row = fixtureTable.getSelectedRow();
         if (row != -1) {
             String id = fixtureTable.getValueAt(row, 0).toString();
+            matchID = id;
 //            System.out.println(id);
             homeComboBox.setSelectedItem(fixtureTable.getValueAt(row, 1).toString());
             awayComboBox.setSelectedItem(fixtureTable.getValueAt(row, 4).toString());
@@ -697,6 +725,33 @@ public class FootballApp extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_fixtureTableMouseClicked
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        if (evt.getSource() == updateButton) {
+            try {
+                
+                String hg = homeScore.getText();
+                String ag = awayScore.getText();
+                
+                updateGame(hg, ag);
+                
+            } catch (IOException ex) {
+                Logger.getLogger(FootballApp.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void homeScoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeScoreMouseClicked
+        if("?".equals(homeScore.getText())) {
+            homeScore.setText("");
+        }
+    }//GEN-LAST:event_homeScoreMouseClicked
+
+    private void awayScoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_awayScoreMouseClicked
+        if("?".equals(awayScore.getText())) {
+            awayScore.setText("");
+        }
+    }//GEN-LAST:event_awayScoreMouseClicked
 
     /**
      * @param args the command line arguments
@@ -797,12 +852,31 @@ public class FootballApp extends javax.swing.JFrame {
         if("added".equals(result)) {
             initFixture();
         }
-        
 
     }
     
+    void updateGame(String hg, String ag) throws IOException {
+
+        Socket sk = connectToServer();
+        DataOutputStream sender = new DataOutputStream(sk.getOutputStream());
+        DataInputStream receiver = new DataInputStream(sk.getInputStream());
+        
+        String req = matchID + "#" + hg + "#" + ag + "#" + "updateGame";
+        System.out.println(req);
+        sender.writeUTF(req);
+        String result = receiver.readUTF();
+        sk.close();
+        
+        if("updated".equals(result)) {
+            initFixture();
+            initRanking();
+        }
+
+    } 
+    
     void enableSetting() {
         addButton.setEnabled(true);
+        updateButton.setEnabled(true);
     }
     
     public static void main(String args[]) {
@@ -874,6 +948,7 @@ public class FootballApp extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable table;
     private com.github.lgooddatepicker.components.TimePicker timePicker;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 
     
