@@ -643,14 +643,14 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="updateButton">
                       <Properties>
+                        <Property name="text" type="java.lang.String" value="UPDATE"/>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="cc" green="cc" red="0" type="rgb"/>
                         </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Montserrat" size="13" style="1"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="UPDATE"/>
-                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>

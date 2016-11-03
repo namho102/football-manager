@@ -689,7 +689,7 @@ public class FootballApp extends javax.swing.JFrame {
                 String home = (String) homeComboBox.getSelectedItem();
                 String away = (String) awayComboBox.getSelectedItem();
                 LocalTime t = timePicker.getTime();
-                LocalDate d = datePicker.getDate();
+                LocalDate d = datePicker.getDate(); 
                 String time = t.toString();
                 String date = d.toString();
 
@@ -759,7 +759,7 @@ public class FootballApp extends javax.swing.JFrame {
     Socket connectToServer() {
         Socket sk = null;
         try {
-            sk = new Socket("192.168.1.2", 9876);
+            sk = new Socket("192.168.1.3", 9876);
         } catch (IOException ex) {
             Logger.getLogger(FootballApp.class.getName()).log(Level.SEVERE, null, ex);
         }
